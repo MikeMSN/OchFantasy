@@ -40,15 +40,39 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>magic-assembly-plugin</id>
+                        <phase>
+                            package
+                        </phase>
+                        <goals>
+                            <goal>
+                                single
+                            </goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>
+                            jar-with-dependencies
+                        </descriptorRef>
+                    </descriptorRefs>
+
                     <archive>
                         <manifest>
                             <mainClass>mi.mo.Main</mainClass>
-                        </manifest>>
+                        </manifest>
                     </archive>
+
                 </configuration>
+
+
             </plugin>
+
         </plugins>
     </build>
 
