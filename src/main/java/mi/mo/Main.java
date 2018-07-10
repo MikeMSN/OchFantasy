@@ -2,17 +2,36 @@ package mi.mo;
 
 import com.google.common.base.Functions;
 import com.google.common.collect.*;
+import mi.mo.mbeans.Setting;
 
+import javax.management.*;
+import java.lang.management.ManagementFactory;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Main {
 
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
+        initMBeans();
         playgroundActionsWithGuavaCollections();
 
+    }
+
+    private static void initMBeans() {
+        try {
+            MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+            ObjectName name = new ObjectName("mi.mo:type=Setting");
+            Setting mbean = Setting.getInstance();
+            mbs.registerMBean(mbean, name);
+            mbean.setControl(10);
+        } catch (MalformedObjectNameException | NotCompliantMBeanException | MBeanRegistrationException | InstanceAlreadyExistsException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void playgroundActionsWithGuavaCollections() {
